@@ -85,7 +85,7 @@ public class MainActivity extends Activity {
         mq2_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//qqq
             }
         });
 
