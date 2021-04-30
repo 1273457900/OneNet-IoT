@@ -1,6 +1,4 @@
-package com.guet.yadajin.myapplication.DataAnalysis;
-
-import com.guet.yadajin.myapplication.DataAnalysis.Datapoints;
+package com.myapplication.DataAnalysis;
 
 import java.util.List;
 

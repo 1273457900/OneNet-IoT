@@ -1,6 +1,4 @@
-package com.guet.yadajin.myapplication.DataAnalysis;
-
-import com.guet.yadajin.myapplication.DataAnalysis.Data;
+package com.myapplication.DataAnalysis;
 
 public class JsonRootBean {
     private int errno;

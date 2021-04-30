@@ -1,4 +1,4 @@
-package com.guet.yadajin.myapplication;
+package com.myapplication;
 
 import org.junit.Test;
 

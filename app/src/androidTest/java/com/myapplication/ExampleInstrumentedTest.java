@@ -1,4 +1,4 @@
-package com.guet.yadajin.myapplication;
+package com.myapplication;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.guet.yadajin.myapplication", appContext.getPackageName());
+        assertEquals("com.myapplication", appContext.getPackageName());
     }
 }
