@@ -43,8 +43,12 @@ public class MainActivity extends Activity {
     LinearLayout fire_layout;
 
     private boolean autoChangeDates;
-    private  String DeviceID ;//设备ID 679497608
-    private  String ApiKey ;//密钥  qHe2JVwH6C=F0DDc5faYsPqZt4s=
+  //  private  String DeviceID ;//设备ID 679497608
+   // private  String ApiKey ;//密钥  qHe2JVwH6C=F0DDc5faYsPqZt4s=
+
+      private  String DeviceID="679497608" ;//设备ID 679497608
+     private  String ApiKey="qHe2JVwH6C=F0DDc5faYsPqZt4s=" ;//密钥  qHe2JVwH6C=F0DDc5faYsPqZt4s=
+
     int maxID ;
 
 
@@ -54,6 +58,8 @@ public class MainActivity extends Activity {
     private Spinner spinner;
     private  List<Integer> list = new ArrayList<Integer>();
     private ArrayAdapter<Integer> adapter;
+    Intent intent1;
+    NetworkThread networkThread1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,29 +74,39 @@ public class MainActivity extends Activity {
         temp_layout=findViewById(R.id.temp_layout);
         mq2_layout=findViewById(R.id.mq2_layout);
         fire_layout=findViewById(R.id.fire_layout);
+         intent1 = new Intent(MainActivity.this,line_chart.class);
 
       //  DEV=findViewById(R.id.DEV);
     //    DEVID=findViewById(R.id.DEVID);
         aSwitch=findViewById(R.id.aSwitch);
         autoChangeDates=false;
 
-        Intent intent = getIntent();
+       /* final Intent intent = getIntent();
         DeviceID=intent.getStringExtra("DeviceID");
         ApiKey=intent.getStringExtra("ApiKey");
         Log.w("DeviceID",DeviceID);
         Log.w("Apikey",ApiKey);
             String url_g="http://api.heclouds.com/devices/" + DeviceID + "/datapoints";
-        networkThread.start();
+
+*/
+
+
+       networkThread.start();
+
+
+//        networkThread1.networkThread();
+
 
         mq2_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//qqq
+                //Intent intent1 = new Intent(MainActivity.this,line_chart.class);
+                intent1.putExtra("data",array[4]);
+                startActivity(intent1);
             }
         });
 
     }
-
 
 
 
@@ -100,14 +116,7 @@ public class MainActivity extends Activity {
         @Override
         public void run() {
             super.run();
-            while (true) {
-                try {
                     Get();
-                    Thread.sleep(1500);
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
         }
     };
 
@@ -203,7 +212,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        networkThread.interrupt();
+        //networkThread.interrupt();
     }
 
     public void setList(int maxID)
