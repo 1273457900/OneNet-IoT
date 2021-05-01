@@ -43,16 +43,16 @@ public class MainActivity extends Activity {
     LinearLayout fire_layout;
 
     private boolean autoChangeDates;
-  //  private  String DeviceID ;//设备ID 679497608
-   // private  String ApiKey ;//密钥  qHe2JVwH6C=F0DDc5faYsPqZt4s=
+    private  String DeviceID ;//设备ID 679497608
+    private  String ApiKey ;//密钥  qHe2JVwH6C=F0DDc5faYsPqZt4s=
 
-      private  String DeviceID="679497608" ;//设备ID 679497608
-     private  String ApiKey="qHe2JVwH6C=F0DDc5faYsPqZt4s=" ;//密钥  qHe2JVwH6C=F0DDc5faYsPqZt4s=
+     // private  String DeviceID="679497608" ;//设备ID 679497608
+    // private  String ApiKey="qHe2JVwH6C=F0DDc5faYsPqZt4s=" ;//密钥  qHe2JVwH6C=F0DDc5faYsPqZt4s=
 
     int maxID ;
 
 
-    int count = 5;//获取数据的数量
+    int count = 10;//获取数据的数量
     String[] array=new String[count];
 
     private Spinner spinner;
@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
         temp_layout=findViewById(R.id.temp_layout);
         mq2_layout=findViewById(R.id.mq2_layout);
         fire_layout=findViewById(R.id.fire_layout);
-         intent1 = new Intent(MainActivity.this,line_chart.class);
+         intent1 = new Intent(MainActivity.this,DynamicalAddingActivity.class);
 
       //  DEV=findViewById(R.id.DEV);
     //    DEVID=findViewById(R.id.DEVID);
@@ -98,8 +98,13 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //Intent intent1 = new Intent(MainActivity.this,line_chart.class);
-                intent1.putExtra("data",array[4]);
+                intent1.putExtra("Data_name","mq2");
+                intent1.putExtra("arrar[]","4");
+                intent1.putExtra("ApiKey",ApiKey);
+                intent1.putExtra("DeviceID",DeviceID);
+               // flag_intent=!flag_intent;
                 startActivity(intent1);
+
             }
         });
 
@@ -136,7 +141,7 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 //UI更新
-                int x=Integer.valueOf(array[3]);//设备ID
+                int x=Integer.valueOf(array[3*2]);//设备ID
 
                 if(maxID !=Math.max(x, maxID))
                 {
@@ -202,10 +207,10 @@ public class MainActivity extends Activity {
 
     public void UIupdate(String[] array){
         //  DEVID.setText("\n  " + array[3]);//设备ID
-        spinner.setSelection(Integer.parseInt(array[3])-1);
-        air_humidity.setText(array[0]);//湿度
-        air_temperature.setText(array[1]);//温度
-        if (array[2].equals("0"))//火焰光线
+        spinner.setSelection(Integer.parseInt(array[3*2])-1);
+        air_humidity.setText(array[0*2]);//湿度
+        air_temperature.setText(array[1*2]);//温度
+        if (array[2*2].equals("0"))//火焰光线
         {
             air_carbon.setText("弱");
             air_carbon.setTextColor(Color.rgb(104,131, 139));
@@ -217,7 +222,7 @@ public class MainActivity extends Activity {
             air_carbon.setTextColor(Color.rgb(255,0, 0));
             }
 
-        air_smoke.setText(array[4]);//MQ2
+        air_smoke.setText(array[4*2]);//MQ2
 
     }
 }

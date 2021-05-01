@@ -23,7 +23,7 @@ import okhttp3.Response;
 
 public class NetworkThread {
 
-    int count = 5;//获取数据的数量
+    int count = 10;//获取数据的数量
     String[] array=new String[count];
     int maxID ;
     public  String DeviceID ;//设备ID 679497608
@@ -41,6 +41,9 @@ public class NetworkThread {
     }
     public String[] getarray(){
         return array;
+    }
+    public String getMQ2(){
+        return array[2*4];
     }
 
 
@@ -80,6 +83,7 @@ public class NetworkThread {
             String id = streams.get(j).getId();
             Log.w("id","id="+id);
             String toValue = null; //承接value值
+            String toTime = null; //承接value值
             List<Datapoints> points = streams.get(j).getDatapoints();
             for (int i = 0; i < points.size(); i++) {
                 String time = points.get(i).getAt();
@@ -88,9 +92,12 @@ public class NetworkThread {
                 Log.w("tag","value="+value);
                 Log.w("tag","string="+count);
                 toValue=value;
+                toTime=time;
             }
-            array[j]=toValue;
-            Log.w("array[%d]"+j,"="+array[j]);
+
+            array[2*j]=toValue;
+            array[2*j+1]=toTime;
+            Log.w("array[%d]"+2*j,"="+array[2*j]);
 
         }
         return  array;

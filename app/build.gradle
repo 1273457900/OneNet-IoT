@@ -18,7 +18,10 @@ android {
     }
     allprojects {
         repositories {
-            maven { url "https://jitpack.io" }
+            maven {
+                url "https://jitpack.io"
+                 "https://maven.google.com"
+            }
         }
     }
 }
@@ -36,6 +39,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.google.android.material:material:1.0.0'
 //    implementation "androidx.appcompat:appcompat:1.0.2"
-
     implementation 'com.github.PhilJay:MPAndroidChart:v2.1.6'//mpandroidChart
+    compile 'com.android.support:appcompat-v7:23.1.1'
+
 }
