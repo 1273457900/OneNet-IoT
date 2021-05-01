@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
     private  List<Integer> list = new ArrayList<Integer>();
     private ArrayAdapter<Integer> adapter;
     Intent intent1;
-    NetworkThread networkThread1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,20 +81,18 @@ public class MainActivity extends Activity {
         aSwitch=findViewById(R.id.aSwitch);
         autoChangeDates=false;
 
-       /* final Intent intent = getIntent();
+        final Intent intent = getIntent();
         DeviceID=intent.getStringExtra("DeviceID");
         ApiKey=intent.getStringExtra("ApiKey");
         Log.w("DeviceID",DeviceID);
         Log.w("Apikey",ApiKey);
             String url_g="http://api.heclouds.com/devices/" + DeviceID + "/datapoints";
 
-*/
+
 
 
        networkThread.start();
 
-
-//        networkThread1.networkThread();
 
 
         mq2_layout.setOnClickListener(new View.OnClickListener() {
@@ -113,10 +111,23 @@ public class MainActivity extends Activity {
 
     private Handler mainHandle = new Handler(Looper.getMainLooper());
     private Thread networkThread = new Thread(){
+        NetworkThread networkThread1 = new NetworkThread();
+
         @Override
         public void run() {
             super.run();
-                    Get();
+            networkThread1.setApikey(ApiKey);
+            networkThread1.setDeviceID(DeviceID);
+
+            while (true) {
+                try {
+                    array=networkThread1.Get();
+                    UIupdate1();
+                    Thread.sleep(1500);
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     };
 
@@ -162,6 +173,12 @@ public class MainActivity extends Activity {
 
         }
 
+
+
+
+    }
+
+    public void UIupdate1(){
         mainHandle.post(new Runnable() {
             @Override
             public void run() {
@@ -207,12 +224,15 @@ public class MainActivity extends Activity {
             }
         });
 
-
     }
+
+
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //networkThread.interrupt();
+        networkThread.interrupt();
     }
 
     public void setList(int maxID)

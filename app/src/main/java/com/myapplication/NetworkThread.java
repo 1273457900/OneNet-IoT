@@ -39,34 +39,21 @@ public class NetworkThread {
     public void setApikey(String ApiKey) {
         this.ApiKey=ApiKey;
     }
+    public String[] getarray(){
+        return array;
+    }
 
 
 
 
-public void networkThread(){
-     Thread networkThread = new Thread(){
-        @Override
-        public void run() {
-            super.run();
-            while (true) {
-                try {
-                    Get();
-                    Thread.sleep(500);
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-    };
-
-    networkThread.start();
-}
 
 
-    public void Get() {
+
+    public String[]  Get() {
+        String []arr=new String[100];
         final String[] a=new String[100];
         try {
+
             String url_g="http://api.heclouds.com/devices/" + DeviceID + "/datapoints";
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(url_g)
@@ -76,13 +63,14 @@ public void networkThread(){
             Log.w("ApiKey",ApiKey);
             Response response = client.newCall(request).execute();
             String responseData = response.body().string();
-            parseJSONWithGSON(responseData);
+            arr=parseJSONWithGSON(responseData);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return arr;
     }
 
-    private void parseJSONWithGSON(String jsonData) {
+    private String[]  parseJSONWithGSON(String jsonData) {
 
         JsonRootBean app = new Gson().fromJson(jsonData, JsonRootBean.class);
         List<Datastreams> streams = app.getData().getDatastreams();
@@ -105,6 +93,7 @@ public void networkThread(){
             Log.w("array[%d]"+j,"="+array[j]);
 
         }
+        return  array;
 
     }
 
