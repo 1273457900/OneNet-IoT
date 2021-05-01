@@ -59,6 +59,7 @@ public class MainActivity extends Activity {
     private  List<Integer> list = new ArrayList<Integer>();
     private ArrayAdapter<Integer> adapter;
     Intent intent1;
+    Boolean flag_intent=false;
 
 
     @Override
@@ -93,8 +94,6 @@ public class MainActivity extends Activity {
 
        networkThread.start();
 
-
-
         mq2_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +118,7 @@ public class MainActivity extends Activity {
             networkThread1.setApikey(ApiKey);
             networkThread1.setDeviceID(DeviceID);
 
-            while (true) {
+            while (!flag_intent) {
                 try {
                     array=networkThread1.Get();
                     UIupdate1();
@@ -131,52 +130,6 @@ public class MainActivity extends Activity {
         }
     };
 
-    public void Get() {
-        final String[] a=new String[100];
-            try {
-                String url_g="http://api.heclouds.com/devices/" + DeviceID + "/datapoints";
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder().url(url_g)
-                                                        .header("api-key", ApiKey)
-                                                        .build();
-                Log.w("url_g",url_g);
-                Log.w("ApiKey",ApiKey);
-                Response response = client.newCall(request).execute();
-                String responseData = response.body().string();
-                parseJSONWithGSON(responseData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
-
-    private void parseJSONWithGSON(String jsonData) {
-
-        JsonRootBean app = new Gson().fromJson(jsonData, JsonRootBean.class);
-        List<Datastreams> streams = app.getData().getDatastreams();
-        //获取数据流名称
-
-        for (int j=0;j<streams.size();j++){
-            String id = streams.get(j).getId();
-            Log.w("id","id="+id);
-            String toValue = null; //承接value值
-            List<Datapoints> points = streams.get(j).getDatapoints();
-            for (int i = 0; i < points.size(); i++) {
-                String time = points.get(i).getAt();
-                String value = points.get(i).getValue();
-                Log.w("tag","time="+time);
-                Log.w("tag","value="+value);
-                Log.w("tag","string="+count);
-                toValue=value;
-            }
-            array[j]=toValue;
-            Log.w("array[%d]"+j,"="+array[j]);
-
-        }
-
-
-
-
-    }
 
     public void UIupdate1(){
         mainHandle.post(new Runnable() {
@@ -190,7 +143,6 @@ public class MainActivity extends Activity {
                     maxID = Math.max(x, maxID);
                     setList(maxID);
                 }
-
                 int select = getSelectitems();
 
                 if (autoChangeDates==false) {
@@ -201,13 +153,9 @@ public class MainActivity extends Activity {
                 {
                     UIupdate(array);
                 }
-
                 Log.w("maxID ","="+maxID);
             }
-
-
         });
-
 
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -228,7 +176,6 @@ public class MainActivity extends Activity {
 
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -244,20 +191,17 @@ public class MainActivity extends Activity {
         }
         spinner = (Spinner)findViewById(R.id.spinner);
         adapter = new ArrayAdapter<Integer>(MainActivity.this, R.layout.items, list);
-
         spinner.setAdapter(adapter);
     }
 
     public int getSelectitems(){
-
         int select = (int)spinner.getSelectedItemId()+1;;
         Log.w("select","%d"+select);
         return select;
     }
 
     public void UIupdate(String[] array){
-
-      //  DEVID.setText("\n  " + array[3]);//设备ID
+        //  DEVID.setText("\n  " + array[3]);//设备ID
         spinner.setSelection(Integer.parseInt(array[3])-1);
         air_humidity.setText(array[0]);//湿度
         air_temperature.setText(array[1]);//温度
@@ -276,8 +220,4 @@ public class MainActivity extends Activity {
         air_smoke.setText(array[4]);//MQ2
 
     }
-
-
-
-
 }
